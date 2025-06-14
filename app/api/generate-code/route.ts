@@ -55,10 +55,16 @@ export async function POST(req: NextRequest) {
 }
 
 function generateFallbackCode(prompt: string): string {
+  // Improved keyword matching
   const lowerPrompt = prompt.toLowerCase()
 
-  // Login form template
-  if (lowerPrompt.includes("login") || lowerPrompt.includes("sign in") || lowerPrompt.includes("auth")) {
+  // Login/Authentication
+  if (
+    lowerPrompt.includes("login") ||
+    lowerPrompt.includes("sign in") ||
+    lowerPrompt.includes("auth") ||
+    lowerPrompt.includes("form")
+  ) {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -195,9 +201,8 @@ function generateFallbackCode(prompt: string): string {
 </body>
 </html>`
   }
-
-  // Landing page template
-  if (lowerPrompt.includes("landing") || lowerPrompt.includes("hero") || lowerPrompt.includes("homepage")) {
+  // Landing page
+  else if (lowerPrompt.includes("landing") || lowerPrompt.includes("hero") || lowerPrompt.includes("homepage")) {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -380,9 +385,8 @@ function generateFallbackCode(prompt: string): string {
 </body>
 </html>`
   }
-
-  // Todo app template
-  if (lowerPrompt.includes("todo") || lowerPrompt.includes("task") || lowerPrompt.includes("list")) {
+  // Todo/Task management
+  else if (lowerPrompt.includes("todo") || lowerPrompt.includes("task") || lowerPrompt.includes("list")) {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -619,6 +623,421 @@ function generateFallbackCode(prompt: string): string {
             }
         \`;
         document.head.appendChild(style);
+    </script>
+</body>
+</html>`
+  }
+
+  // Ecommerce website template
+  if (
+    lowerPrompt.includes("ecommerce") ||
+    lowerPrompt.includes("shop") ||
+    lowerPrompt.includes("store") ||
+    lowerPrompt.includes("product") ||
+    lowerPrompt.includes("cart")
+  ) {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Premium Electronics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        .cart-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        .cart-btn:hover {
+            transform: translateY(-2px);
+        }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .products {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .products h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+        .product-info {
+            padding: 1.5rem;
+        }
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .cart-count {
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .products {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">TechStore</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="cart-btn" onclick="showCart()">
+                Cart <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Premium Electronics Store</h1>
+        <p>Discover the latest technology with unbeatable prices and quality</p>
+        <a href="#products" class="cta-button">Shop Now</a>
+    </section>
+
+    <section class="products" id="products">
+        <h2>Featured Products</h2>
+        <div class="product-grid">
+            <div class="product-card" onclick="viewProduct('Wireless Headphones')">
+                <div class="product-image">🎧</div>
+                <div class="product-info">
+                    <div class="product-title">Wireless Headphones</div>
+                    <div class="product-price">$199.99</div>
+                    <div class="product-description">Premium noise-canceling wireless headphones with 30-hour battery life.</div>
+                    <button class="add-to-cart" onclick="addToCart(event, 'Wireless Headphones', 199.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="viewProduct('Smart Watch')">
+                <div class="product-image">⌚</div>
+                <div class="product-info">
+                    <div class="product-title">Smart Watch</div>
+                    <div class="product-price">$299.99</div>
+                    <div class="product-description">Advanced fitness tracking with heart rate monitor and GPS.</div>
+                    <button class="add-to-cart" onclick="addToCart(event, 'Smart Watch', 299.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="viewProduct('Laptop Pro')">
+                <div class="product-image">💻</div>
+                <div class="product-info">
+                    <div class="product-title">Laptop Pro</div>
+                    <div class="product-price">$1,299.99</div>
+                    <div class="product-description">High-performance laptop with 16GB RAM and 512GB SSD storage.</div>
+                    <button class="add-to-cart" onclick="addToCart(event, 'Laptop Pro', 1299.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="viewProduct('Smartphone')">
+                <div class="product-image">📱</div>
+                <div class="product-info">
+                    <div class="product-title">Smartphone</div>
+                    <div class="product-price">$799.99</div>
+                    <div class="product-description">Latest flagship smartphone with triple camera system and 5G connectivity.</div>
+                    <button class="add-to-cart" onclick="addToCart(event, 'Smartphone', 799.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="viewProduct('Gaming Console')">
+                <div class="product-image">🎮</div>
+                <div class="product-info">
+                    <div class="product-title">Gaming Console</div>
+                    <div class="product-price">$499.99</div>
+                    <div class="product-description">Next-gen gaming console with 4K gaming and ray tracing support.</div>
+                    <button class="add-to-cart" onclick="addToCart(event, 'Gaming Console', 499.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="viewProduct('Wireless Speaker')">
+                <div class="product-image">🔊</div>
+                <div class="product-info">
+                    <div class="product-title">Wireless Speaker</div>
+                    <div class="product-price">$149.99</div>
+                    <div class="product-description">Portable Bluetooth speaker with 360-degree sound and waterproof design.</div>
+                    <button class="add-to-cart" onclick="addToCart(event, 'Wireless Speaker', 149.99)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 TechStore. All rights reserved. | Free shipping on orders over $100</p>
+    </footer>
+
+    <script>
+        let cart = [];
+        let cartCount = 0;
+
+        function addToCart(event, productName, price) {
+            event.stopPropagation();
+            
+            cart.push({
+                name: productName,
+                price: price,
+                id: Date.now()
+            });
+            
+            cartCount++;
+            document.getElementById('cartCount').textContent = cartCount;
+            
+            // Add animation effect
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added!';
+            button.style.background = '#4CAF50';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            }, 1000);
+            
+            showNotification(\`\${productName} added to cart!\`);
+        }
+
+        function viewProduct(productName) {
+            alert(\`Viewing \${productName}. In a real store, this would open a detailed product page.\`);
+        }
+
+        function showCart() {
+            if (cart.length === 0) {
+                alert('Your cart is empty. Add some products first!');
+                return;
+            }
+            
+            let cartSummary = 'Your Cart:\\n\\n';
+            let total = 0;
+            
+            cart.forEach(item => {
+                cartSummary += \`\${item.name} - $\${item.price}\\n\`;
+                total += item.price;
+            });
+            
+            cartSummary += \`\\nTotal: $\${total.toFixed(2)}\`;
+            alert(cartSummary);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = \`
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            \`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add CSS for notification animation
+        const style = document.createElement('style');
+        style.textContent = \`
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        \`;
+        document.head.appendChild(style);
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>`
