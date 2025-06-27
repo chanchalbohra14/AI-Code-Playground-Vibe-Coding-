@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, url_for # Added url_for
-import datetime # For footer year
+from flask import Flask, jsonify, request
+from flask_cors import CORS # Import CORS
+import datetime
 
 app = Flask(__name__)
+CORS(app) # Enable CORS for all routes
 
-# Placeholder for event data
+# Placeholder for event data (same as before)
 events_data = [
     {
         "id": 1,
@@ -12,7 +14,7 @@ events_data = [
         "location": "Green Valley Park",
         "description": "Join us for a day of live music, food trucks, and fun activities.",
         "price": 25.00,
-        "image": "summer_fest.jpg" # Assuming image is in static/images/
+        "image_filename": "summer_fest.jpg" # filename for React to use
     },
     {
         "id": 2,
@@ -21,7 +23,7 @@ events_data = [
         "location": "Town Square",
         "description": "Explore local crafts, fresh produce, and enjoy community games.",
         "price": 0.00,
-        "image": "village_fair.jpg" # Assuming image is in static/images/
+        "image_filename": "village_fair.jpg"
     },
     {
         "id": 3,
@@ -30,77 +32,78 @@ events_data = [
         "location": "Eagle Peak Trail",
         "description": "Guided hike through scenic mountain trails. Suitable for all skill levels.",
         "price": 15.00,
-        "image": "mountain_hike.jpg" # Assuming image is in static/images/
+        "image_filename": "mountain_hike.jpg"
     }
 ]
+# In a real app, image URLs might be full paths or served differently.
+# For now, React will look for these in its public/images or src/assets/images folder.
 
-# Context processor to make 'now' available in all templates for the year in footer
-@app.context_processor
-def inject_now():
-    return {'now': datetime.datetime.utcnow()}
+@app.route('/api/events', methods=['GET'])
+def get_events():
+    return jsonify(events_data)
 
-@app.route('/')
-def index():
-    # Show first 2 events on homepage as upcoming
-    return render_template('index.html', upcoming_events=events_data[:2])
-
-@app.route('/events')
-def events():
-    return render_template('events.html', all_events=events_data)
-
-@app.route('/event/<int:event_id>')
-def event_detail(event_id):
+@app.route('/api/events/<int:event_id>', methods=['GET'])
+def get_event_detail(event_id):
     event = next((event for event in events_data if event["id"] == event_id), None)
     if event:
-        return render_template('event_detail.html', event=event)
-    return "Event not found", 404
+        return jsonify(event)
+    return jsonify({"error": "Event not found"}), 404
 
-@app.route('/book/<int:event_id>', methods=['GET', 'POST'])
-def book_event(event_id):
+@app.route('/api/book/<int:event_id>', methods=['POST'])
+def book_event_api(event_id):
     event = next((event for event in events_data if event["id"] == event_id), None)
     if not event:
-        return "Event not found", 404
+        return jsonify({"error": "Event not found"}), 404
 
-    if request.method == 'POST':
-        customer_name = request.form.get('name')
-        customer_email = request.form.get('email')
-        num_tickets = request.form.get('tickets')
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid data"}), 400
 
-        # Placeholder for booking logic & email sending
-        print(f"Booking attempt for {event['name']} by {customer_name} ({customer_email}) for {num_tickets} ticket(s).")
+    customer_name = data.get('name')
+    customer_email = data.get('email')
+    num_tickets = data.get('tickets')
 
-        # For now, return a simple HTML response page
-        # In a real app, you'd save to DB and send emails here.
-        confirmation_html = f"""
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Booking Confirmation - Village Vacation</title>
-            <link rel="stylesheet" href="{url_for('static', filename='css/style.css')}">
-            <style>
-                body {{ padding: 20px; text-align: center; }}
-                .confirmation-box {{ max-width: 600px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
-                a {{ color: #0779e4; }}
-            </style>
-        </head>
-        <body>
-            <div class="confirmation-box">
-                <h1>Booking Received!</h1>
-                <p>Thank you, <strong>{customer_name}</strong>, for booking <strong>{num_tickets}</strong> ticket(s) for <strong>{event['name']}</strong>.</p>
-                <p>A confirmation email will be sent to <strong>{customer_email}</strong> (this is a placeholder, no email is actually sent yet).</p>
-                <br>
-                <p><a href="{url_for('index')}">Back to Home</a></p>
-                <p><a href="{url_for('event_detail', event_id=event_id)}">Back to Event Details</a></p>
-            </div>
-        </body>
-        </html>
-        """
-        return confirmation_html
+    if not all([customer_name, customer_email, num_tickets]):
+        return jsonify({"error": "Missing data fields"}), 400
 
-    return render_template('book_form.html', event=event)
+    # Placeholder for booking logic & email sending
+    print(f"API Booking Received for {event['name']}:")
+    print(f"  Name: {customer_name}")
+    print(f"  Email: {customer_email}")
+    print(f"  Tickets: {num_tickets}")
 
+    # ** FUTURE EMAIL IMPLEMENTATION POINT **
+    # TODO: Implement email sending logic here.
+    # 1. Customer Confirmation Email:
+    #    - To: customer_email
+    #    - Subject: Your booking for {event['name']} is confirmed!
+    #    - Body: Details of the booking (event name, date, tickets, price, etc.)
+    # 2. Owner/Admin Notification Email:
+    #    - To: admin_email (configurable)
+    #    - Subject: New booking for {event['name']} by {customer_name}
+    #    - Body: Details of the booking.
+
+    # Considerations for email implementation:
+    # - Use a library like `smtplib` for basic SMTP, or a service like SendGrid/Mailgun for reliability.
+    # - Email sending should ideally be asynchronous (e.g., using Celery or Flask-Executor)
+    #   to avoid blocking the API response.
+    # - Securely manage email credentials (e.g., via environment variables, not hardcoded).
+    # - Create email templates (HTML or plain text).
+    # - Implement error handling for email sending failures.
+
+    # For now, the print statements serve as a placeholder for this action.
+    # In a real app, actual database saving would also occur here before sending emails.
+
+    return jsonify({
+        "message": "Booking received successfully!",
+        "event_name": event['name'],
+        "customer_name": customer_name,
+        "customer_email": customer_email,
+        "num_tickets": num_tickets
+    }), 200
+
+# Removed the old HTML rendering routes and context processor for 'now'
+# as they are not needed for an API.
 
 if __name__ == '__main__':
     app.run(debug=True)

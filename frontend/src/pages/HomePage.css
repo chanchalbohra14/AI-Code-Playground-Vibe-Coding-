@@ -1,0 +1,48 @@
+.home-page .hero {
+  background: #0779e4;
+  color: #fff;
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.home-page .hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.home-page .hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-page .cta-button {
+  display: inline-block;
+  background: #ff6f61;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.home-page .cta-button:hover {
+  background: #e65042;
+}
+
+.upcoming-events-preview {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.upcoming-events-preview h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.event-grid-preview {
+  /* Styles for a grid if you display event cards directly here */
+  /* For now, it's just a placeholder */
+}

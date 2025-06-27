@@ -1,0 +1,16 @@
+/*
+  General App-wide styles can go here if needed,
+  but most styles are in Layout.css, index.css, or component-specific CSS files.
+  This file is kept minimal.
+*/
+
+/* Example of a very global style you might want: */
+/*
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+*/
+
+/* Add any other global utility classes or very high-level app container styles here */

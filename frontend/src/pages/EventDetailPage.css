@@ -1,0 +1,100 @@
+.event-detail-page {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.event-detail-page .event-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.event-detail-page .event-image-large {
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #eee;
+}
+
+.event-detail-page h1 {
+  font-size: 2.2rem;
+  color: #0779e4; /* Theme color */
+  margin-bottom: 10px;
+}
+
+.event-info-body {
+  padding: 0 10px; /* Add some padding if content is too close to edges */
+}
+
+.event-info-body p {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.event-info-body strong {
+  color: #222;
+}
+
+.event-description {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid #eee;
+}
+
+.event-description h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.cta-button.book-now-button { /* Specificity for the book now button */
+  display: inline-block; /* Already a class, but can reinforce */
+  background: #ff6f61; /* Same as hero button */
+  color: #fff;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.15rem;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.cta-button.book-now-button:hover {
+  background: #e65042;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 30px;
+  color: #0779e4;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Shared loading/error messages from EventsPage.css could be global if preferred */
+.loading-message, .error-message {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 20px;
+  color: #555;
+}
+
+.error-message {
+  color: #d9534f;
+}
+.error-message a {
+  color: #0056b3; /* Darker blue for links in error messages */
+  text-decoration: underline;
+}
