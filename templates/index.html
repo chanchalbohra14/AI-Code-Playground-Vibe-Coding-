@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Village Vacation{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to Village Vacation!</h1>
+    <p>Your ultimate destination for memorable local events and experiences.</p>
+    <a href="{{ url_for('events') }}" class="cta-button">Explore Events</a>
+</section>
+
+<section class="upcoming-events">
+    <h2>Upcoming Events</h2>
+    {% if upcoming_events %}
+        <div class="event-grid">
+            {% for event in upcoming_events %}
+            <div class="event-card">
+                {% if event.image %}
+                    <img src="{{ url_for('static', filename='images/' + event.image) }}" alt="{{ event.name }}">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="Placeholder Event Image">
+                {% endif %}
+                <h3>{{ event.name }}</h3>
+                <p class="event-date">{{ event.date }}</p>
+                <p class="event-location">{{ event.location }}</p>
+                <a href="{{ url_for('event_detail', event_id=event.id) }}" class="btn-details">View Details</a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No upcoming events at the moment. Check back soon!</p>
+    {% endif %}
+</section>
+{% endblock %}

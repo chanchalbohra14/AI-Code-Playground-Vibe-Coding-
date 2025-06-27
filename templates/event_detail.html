@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.name }} - Village Vacation{% endblock %}
+
+{% block content %}
+<section class="event-detail-page">
+    {% if event %}
+        <div class="event-header">
+            {% if event.image %}
+                <img src="{{ url_for('static', filename='images/' + event.image) }}" alt="{{ event.name }}" class="event-image-large">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="Placeholder Event Image" class="event-image-large">
+            {% endif %}
+            <h1>{{ event.name }}</h1>
+        </div>
+
+        <div class="event-info">
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            <p><strong>Price:</strong>
+                {% if event.price > 0 %}
+                    ${{ "%.2f"|format(event.price) }}
+                {% else %}
+                    Free
+                {% endif %}
+            </p>
+
+            <div class="event-description">
+                <h2>About this Event</h2>
+                <p>{{ event.description }}</p>
+            </div>
+
+            <a href="{{ url_for('book_event', event_id=event.id) }}" class="cta-button book-now-button">Book Now</a>
+        </div>
+    {% else %}
+        <h1>Event Not Found</h1>
+        <p>Sorry, the event you are looking for does not exist.</p>
+        <a href="{{ url_for('events') }}">Back to Events</a>
+    {% endif %}
+</section>
+{% endblock %}
